@@ -49,8 +49,7 @@ You have to set this config value with menuconfig.
 # Generic 64x128 i2c
 
 ![config_i2c](https://user-images.githubusercontent.com/6020549/103494667-301bbc00-4e7b-11eb-8314-c4e8944fca0d.jpg)
-![M5Stick-1](https://user-images.githubusercontent.com/6020549/103496580-25b0f080-4e82-11eb-9112-4f62b940054f.JPG)
-![M5Stick-2](https://user-images.githubusercontent.com/6020549/103496581-26e21d80-4e82-11eb-91d8-f1989490ace9.JPG)
-![M5Stick-3](https://user-images.githubusercontent.com/6020549/103496584-28abe100-4e82-11eb-9827-ca9623118eb8.JPG)
-![M5Stick-4](https://user-images.githubusercontent.com/6020549/103496589-29dd0e00-4e82-11eb-8489-9f3f8b66043b.JPG)
-
+![i2c-1](https://user-images.githubusercontent.com/6020549/103496654-6577d800-4e82-11eb-9d7f-c0b6af226bee.JPG)
+![i2c-2](https://user-images.githubusercontent.com/6020549/103496656-67419b80-4e82-11eb-88e9-640c6cba9769.JPG)
+![i2c-3](https://user-images.githubusercontent.com/6020549/103496658-690b5f00-4e82-11eb-96a0-0499a840f9b1.JPG)
+![i2c-4](https://user-images.githubusercontent.com/6020549/103496662-6ad52280-4e82-11eb-9177-335eed508e26.JPG)
