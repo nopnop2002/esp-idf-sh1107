@@ -10,6 +10,9 @@
 
 #define tag "SH1107"
 
+#define I2C_NUM I2C_NUM_0
+#define I2C_MASTER_FREQ_HZ 400000 /*!< I2C master clock frequency. no higher than 1MHz for now */
+
 void i2c_master_init(SH1107_t * dev, int16_t sda, int16_t scl, int16_t reset)
 {
 	i2c_config_t i2c_config = {
@@ -18,10 +21,10 @@ void i2c_master_init(SH1107_t * dev, int16_t sda, int16_t scl, int16_t reset)
 		.scl_io_num = scl,
 		.sda_pullup_en = GPIO_PULLUP_ENABLE,
 		.scl_pullup_en = GPIO_PULLUP_ENABLE,
-		.master.clk_speed = 1000000
+		.master.clk_speed = I2C_MASTER_FREQ_HZ
 	};
-	i2c_param_config(I2C_NUM_0, &i2c_config);
-	i2c_driver_install(I2C_NUM_0, I2C_MODE_MASTER, 0, 0, 0);
+	i2c_param_config(I2C_NUM, &i2c_config);
+	i2c_driver_install(I2C_NUM, I2C_MODE_MASTER, 0, 0, 0);
 
 	if (reset >= 0) {
 		gpio_pad_select_gpio(reset);
@@ -73,7 +76,7 @@ void i2c_init(SH1107_t * dev, int width, int height)
 
 	i2c_master_stop(cmd);
 
-	esp_err_t espRc = i2c_master_cmd_begin(I2C_NUM_0, cmd, 10/portTICK_PERIOD_MS);
+	esp_err_t espRc = i2c_master_cmd_begin(I2C_NUM, cmd, 10/portTICK_PERIOD_MS);
 	if (espRc == ESP_OK) {
 		ESP_LOGI(tag, "OLED configured successfully");
 	} else {
@@ -106,7 +109,7 @@ void i2c_display_image(SH1107_t * dev, int page, int seg, uint8_t * images, int 
 	i2c_master_write_byte(cmd, 0xB0 | page, true);
 
 	i2c_master_stop(cmd);
-	i2c_master_cmd_begin(I2C_NUM_0, cmd, 10/portTICK_PERIOD_MS);
+	i2c_master_cmd_begin(I2C_NUM, cmd, 10/portTICK_PERIOD_MS);
 	i2c_cmd_link_delete(cmd);
 
 	cmd = i2c_cmd_link_create();
@@ -117,7 +120,7 @@ void i2c_display_image(SH1107_t * dev, int page, int seg, uint8_t * images, int 
 	i2c_master_write(cmd, images, width, true);
 
 	i2c_master_stop(cmd);
-	i2c_master_cmd_begin(I2C_NUM_0, cmd, 10/portTICK_PERIOD_MS);
+	i2c_master_cmd_begin(I2C_NUM, cmd, 10/portTICK_PERIOD_MS);
 	i2c_cmd_link_delete(cmd);
 }
 
@@ -135,6 +138,6 @@ void i2c_contrast(SH1107_t * dev, int contrast)
 	i2c_master_write_byte(cmd, 0x81, true);		// Set Contrast Control Register
 	i2c_master_write_byte(cmd, _contrast, true);
 	i2c_master_stop(cmd);
-	i2c_master_cmd_begin(I2C_NUM_0, cmd, 10/portTICK_PERIOD_MS);
+	i2c_master_cmd_begin(I2C_NUM, cmd, 10/portTICK_PERIOD_MS);
 	i2c_cmd_link_delete(cmd);
 }
