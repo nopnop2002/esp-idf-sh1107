@@ -28,17 +28,20 @@ void spi_master_init(SH1107_t * dev, int16_t GPIO_MOSI, int16_t GPIO_SCLK, int16
 {
 	esp_err_t ret;
 
+	gpio_reset_pin( GPIO_CS );
 	ret = gpio_set_direction( GPIO_CS, GPIO_MODE_OUTPUT );
 	ESP_LOGI(TAG, "gpio_set_direction(GPIO_CS)=%d",ret);
 	assert(ret==ESP_OK);
 	gpio_set_level( GPIO_CS, 1 );
 
+	gpio_reset_pin( GPIO_DC );
 	ret = gpio_set_direction( GPIO_DC, GPIO_MODE_OUTPUT );
 	ESP_LOGI(TAG, "gpio_set_direction(GPIO_DC)=%d",ret);
 	assert(ret==ESP_OK);
 	gpio_set_level( GPIO_DC, 0 );
 
 	if (GPIO_RESET >= 0) {
+		gpio_reset_pin( GPIO_RESET );
 		ret = gpio_set_direction( GPIO_RESET, GPIO_MODE_OUTPUT );
 		ESP_LOGI(TAG, "gpio_set_direction(GPIO_RESET)=%d",ret);
 		assert(ret==ESP_OK);

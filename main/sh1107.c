@@ -19,6 +19,15 @@ void sh1107_init(SH1107_t * dev, int width, int height)
 	}
 }
 
+void sh1107_display_image(SH1107_t * dev, int page, int col, uint8_t * images, int width)
+{
+	if (dev->_address == SPIAddress) {
+		spi_display_image(dev, page, col, images, width);
+	} else {
+		i2c_display_image(dev, page, col, images, width);
+	}
+}
+
 void sh1107_display_text(SH1107_t * dev, int row, int col, char * text, int text_len, bool invert)
 {
 	int _length = text_len;
@@ -79,15 +88,6 @@ void sh1107_display_text(SH1107_t * dev, int row, int col, char * text, int text
 		(*func)(dev, _row, _col, image, 8);
 		_row = _row + _rowadd;
 		_col = _col + _coladd;
-	}
-}
-
-void sh1107_display_image(SH1107_t * dev, int page, int col, uint8_t * images, int width)
-{
-	if (dev->_address == SPIAddress) {
-		spi_display_image(dev, page, col, images, width);
-	} else {
-		i2c_display_image(dev, page, col, images, width);
 	}
 }
 

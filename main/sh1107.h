@@ -42,8 +42,8 @@ typedef struct {
 } SH1107_t;
 
 void sh1107_init(SH1107_t * dev, int width, int height);
-void sh1107_display_text(SH1107_t * dev, int row, int col, char * text, int text_len, bool invert);
 void sh1107_display_image(SH1107_t * dev, int page, int col, uint8_t * images, int width);
+void sh1107_display_text(SH1107_t * dev, int row, int col, char * text, int text_len, bool invert);
 void sh1107_clear_screen(SH1107_t * dev, bool invert);
 void sh1107_clear_line(SH1107_t * dev, int row, bool invert);
 void sh1107_contrast(SH1107_t * dev, int contrast);
