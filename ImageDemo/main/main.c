@@ -198,8 +198,18 @@ void app_main(void)
 		sh1107_bitmaps(&dev, xpos, ypos, batman, 32, 13, false);
 		vTaskDelay(2000 / portTICK_PERIOD_MS);
 
+		for(int i=0;i<128;i++) {
+			sh1107_wrap_arround(&dev, SCROLL_DOWN, 43, 55, 0);
+		}
+		vTaskDelay(2000 / portTICK_PERIOD_MS);
+
 		sh1107_clear_screen(&dev, false);
 		sh1107_bitmaps(&dev, 0, 0, logoMischianti, 128, 64, false);
+		vTaskDelay(2000 / portTICK_PERIOD_MS);
+
+		for(int i=0;i<64;i++) {
+			sh1107_wrap_arround(&dev, SCROLL_RIGHT, 0, 15, 0);
+		}
 		vTaskDelay(2000 / portTICK_PERIOD_MS);
 
 		sh1107_clear_screen(&dev, false);
