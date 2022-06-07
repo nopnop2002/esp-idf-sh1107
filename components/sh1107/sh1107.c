@@ -159,6 +159,140 @@ void sh1107_contrast(SH1107_t * dev, int contrast)
 	}
 }
 
+// delay = 0 : display with no wait
+// delay > 0 : display with wait
+// delay < 0 : no display
+void sh1107_wrap_arround(SH1107_t * dev, sh1107_scroll_type_t scroll, int start, int end, int8_t delay)
+{
+	if (scroll == SCROLL_RIGHT) {
+		int _start = start; // 0 to 15
+		int _end = end; // 0 to 15
+		if (_end >= dev->_pages) _end = dev->_pages - 1;
+		uint8_t wk;
+		//for (int page=0;page<dev->_pages;page++) {
+		for (int page=_start;page<=_end;page++) {
+			wk = dev->_page[page]._segs[63];
+			for (int seg=63;seg>0;seg--) {
+				dev->_page[page]._segs[seg] = dev->_page[page]._segs[seg-1];
+			}
+			dev->_page[page]._segs[0] = wk;
+		}
+
+	} else if (scroll == SCROLL_LEFT) {
+		int _start = start; // 0 to 15
+		int _end = end; // 0 to 15
+		if (_end >= dev->_pages) _end = dev->_pages - 1;
+		uint8_t wk;
+		//for (int page=0;page<dev->_pages;page++) {
+		for (int page=_start;page<=_end;page++) {
+			wk = dev->_page[page]._segs[0];
+			for (int seg=0;seg<63;seg++) {
+				dev->_page[page]._segs[seg] = dev->_page[page]._segs[seg+1];
+			}
+			dev->_page[page]._segs[63] = wk;
+		}
+
+	} else if (scroll == SCROLL_UP) {
+		int _start = start; // 0 to {width-1}
+		int _end = end; // 0 to {width-1}
+		if (_end >= dev->_width) _end = dev->_width - 1;
+		uint8_t wk0;
+		uint8_t wk1;
+		uint8_t wk2;
+		uint8_t save[64];
+		// Save pages 0
+		for (int seg=0;seg<64;seg++) {
+			save[seg] = dev->_page[0]._segs[seg];
+		}
+		// Page0 to Page15
+		for (int page=0;page<dev->_pages-1;page++) {
+			//for (int seg=0;seg<64;seg++) {
+			for (int seg=_start;seg<=_end;seg++) {
+				wk0 = dev->_page[page]._segs[seg];
+				wk1 = dev->_page[page+1]._segs[seg];
+				if (seg == 0) {
+					ESP_LOGD(TAG, "b page=%d wk0=%02x wk1=%02x", page, wk0, wk1);
+				}
+				wk0 = wk0 >> 1;
+				wk1 = wk1 & 0x01;
+				wk1 = wk1 << 7;
+				wk2 = wk0 | wk1;
+				if (seg == 0) {
+					ESP_LOGD(TAG, "a page=%d wk0=%02x wk1=%02x wk2=%02x", page, wk0, wk1, wk2);
+				}
+				dev->_page[page]._segs[seg] = wk2;
+			}
+		}
+		// Page15
+		int pages = dev->_pages-1;
+		//for (int seg=0;seg<64;seg++) {
+		for (int seg=_start;seg<=_end;seg++) {
+			wk0 = dev->_page[pages]._segs[seg];
+			wk1 = save[seg];
+			wk0 = wk0 >> 1;
+			wk1 = wk1 & 0x01;
+			wk1 = wk1 << 7;
+			wk2 = wk0 | wk1;
+			dev->_page[pages]._segs[seg] = wk2;
+		}
+
+	} else if (scroll == SCROLL_DOWN) {
+		int _start = start; // 0 to {width-1}
+		int _end = end; // 0 to {width-1}
+		if (_end >= dev->_width) _end = dev->_width - 1;
+		uint8_t wk0;
+		uint8_t wk1;
+		uint8_t wk2;
+		uint8_t save[64];
+		// Save pages 15
+		int pages = dev->_pages-1;
+		for (int seg=0;seg<64;seg++) {
+			save[seg] = dev->_page[pages]._segs[seg];
+		}
+		// Page15 to Page1
+		for (int page=pages;page>0;page--) {
+			//for (int seg=0;seg<64;seg++) {
+			for (int seg=_start;seg<=_end;seg++) {
+				wk0 = dev->_page[page]._segs[seg];
+				wk1 = dev->_page[page-1]._segs[seg];
+				if (seg == 0) {
+					ESP_LOGD(TAG, "b page=%d wk0=%02x wk1=%02x", page, wk0, wk1);
+				}
+				wk0 = wk0 << 1;
+				wk1 = wk1 & 0x80;
+				wk1 = wk1 >> 7;
+				wk2 = wk0 | wk1;
+				if (seg == 0) {
+					ESP_LOGD(TAG, "a page=%d wk0=%02x wk1=%02x wk2=%02x", page, wk0, wk1, wk2);
+				}
+				dev->_page[page]._segs[seg] = wk2;
+			}
+		}
+		// Page0
+		for (int seg=_start;seg<=_end;seg++) {
+			wk0 = dev->_page[0]._segs[seg];
+			wk1 = save[seg];
+			wk0 = wk0 << 1;
+			wk1 = wk1 & 0x80;
+			wk1 = wk1 >> 7;
+			wk2 = wk0 | wk1;
+			dev->_page[0]._segs[seg] = wk2;
+		}
+
+	}
+
+	if (delay >= 0) {
+		for (int page=0;page<dev->_pages;page++) {
+			if (dev->_address == SPIAddress) {
+				spi_display_image(dev, page, 0, dev->_page[page]._segs, 64);
+			} else {
+				i2c_display_image(dev, page, 0, dev->_page[page]._segs, 64);
+			}
+			if (delay) vTaskDelay(delay);
+		}
+	}
+}
+
 void sh1107_bitmaps(SH1107_t * dev, int xpos, int ypos, uint8_t * bitmap, int width, int height, bool invert)
 {
 	if ( (width % 8) != 0) {

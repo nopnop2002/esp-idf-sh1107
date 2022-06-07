@@ -31,6 +31,14 @@ Usage:
 #define I2CAddress 0x3C
 #define SPIAddress 0xFF
 
+typedef enum {
+	SCROLL_RIGHT = 1,
+	SCROLL_LEFT = 2,
+	SCROLL_DOWN = 3,
+	SCROLL_UP = 4,
+	SCROLL_STOP = 5
+} sh1107_scroll_type_t;
+
 typedef struct {
 	bool _valid; // Not using it anymore
 	int _segLen; // Not using it anymore
@@ -57,6 +65,7 @@ void sh1107_display_text(SH1107_t * dev, int row, int col, char * text, int text
 void sh1107_clear_screen(SH1107_t * dev, bool invert);
 void sh1107_clear_line(SH1107_t * dev, int row, bool invert);
 void sh1107_contrast(SH1107_t * dev, int contrast);
+void sh1107_wrap_arround(SH1107_t * dev, sh1107_scroll_type_t scroll, int start, int end, int8_t delay);
 void sh1107_bitmaps(SH1107_t * dev, int xpos, int ypos, uint8_t * bitmap, int width, int height, bool invert);
 void sh1107_invert(uint8_t *buf, size_t blen);
 uint8_t sh1107_copy_bit(uint8_t src, int srcBits, uint8_t dst, int dstBits);
