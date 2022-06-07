@@ -13,10 +13,6 @@ idf.py menuconfig
 idf.py flash
 ```
 
-__Note__   
-For some reason, there are development boards that cannot use GPIO06, GPIO08, GPIO09, GPIO19 for SPI clock pins.   
-According to the ESP32C3 specifications, these pins can also be used as SPI clocks.   
-I used a raw ESP-C3-13 to verify that these pins could be used as SPI clocks.   
 
 # Configuration   
 You have to set this config value with menuconfig.   
@@ -49,7 +45,7 @@ You have to set this config value with menuconfig.
 
 Wirering
 
-|sh1107||ESP32|ESP32-S2|ESP32-C3|
+|sh1107||ESP32|ESP32-S2/S3|ESP32-C3|
 |:-:|:-:|:-:|:-:|:-:|
 |CS|--|GPIO14|GPIO34|GPIO3|
 |DC|--|GPIO27|GPIO37|GPIO2|
@@ -60,7 +56,12 @@ Wirering
 |VCC|--|3.3V|3.3V|3.3V|
 
 __You can change it to any pin using menuconfig.__   
-__But it may not work with other GPIOs.__
+
+__Note__   
+For some reason, there are development boards that cannot use GPIO06, GPIO08, GPIO09, GPIO19 for SPI clock pins.   
+According to the ESP32C3 specifications, these pins can also be used as SPI clocks.   
+I used a raw ESP-C3-13 to verify that these pins could be used as SPI clocks.   
+
 
 ---
 
@@ -74,7 +75,7 @@ __But it may not work with other GPIOs.__
 
 Wirering
 
-|sh1107||ESP32|ESP32-S2|ESP32-C3|
+|sh1107||ESP32|ESP32-S2/S3|ESP32-C3|
 |:-:|:-:|:-:|:-:|:-:|
 |SDA|--|GPIO21|GPIO11|GPI10|
 |SCL|--|GPIO22|GPIO12|GPIO9|
