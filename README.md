@@ -83,5 +83,4 @@ Wirering
 |VCC|--|3.3V|3.3V|3.3V|
 
 __You can change it to any pin using menuconfig.__   
-__But it may not work with other GPIOs.__
 
