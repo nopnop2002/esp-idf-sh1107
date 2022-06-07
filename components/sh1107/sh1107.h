@@ -32,6 +32,12 @@ Usage:
 #define SPIAddress 0xFF
 
 typedef struct {
+	bool _valid; // Not using it anymore
+	int _segLen; // Not using it anymore
+	uint8_t _segs[64];
+} PAGE_t;
+
+typedef struct {
 	int _address;
 	int _width;
 	int _height;
@@ -39,18 +45,27 @@ typedef struct {
 	int _direction;
 	int16_t _dc;
 	spi_device_handle_t _SPIHandle;
+	PAGE_t _page[16];
 } SH1107_t;
 
 void sh1107_init(SH1107_t * dev, int width, int height);
-void sh1107_display_image(SH1107_t * dev, int page, int col, uint8_t * images, int width);
+void sh1107_show_buffer(SH1107_t * dev);
+void sh1107_set_buffer(SH1107_t * dev, uint8_t * buffer);
+void sh1107_get_buffer(SH1107_t * dev, uint8_t * buffer);
+void sh1107_display_image(SH1107_t * dev, int page, int seg, uint8_t * images, int width);
 void sh1107_display_text(SH1107_t * dev, int row, int col, char * text, int text_len, bool invert);
 void sh1107_clear_screen(SH1107_t * dev, bool invert);
 void sh1107_clear_line(SH1107_t * dev, int row, bool invert);
 void sh1107_contrast(SH1107_t * dev, int contrast);
+void sh1107_bitmaps(SH1107_t * dev, int xpos, int ypos, uint8_t * bitmap, int width, int height, bool invert);
 void sh1107_invert(uint8_t *buf, size_t blen);
+uint8_t sh1107_copy_bit(uint8_t src, int srcBits, uint8_t dst, int dstBits);
+uint8_t sh1107_rotate_byte(uint8_t ch1);
+void sh1107_rotate_image(uint8_t * buf, int dir);
 void sh1107_fadeout(SH1107_t * dev);
 void sh1107_direction(SH1107_t * dev, int dir);
-void sh1107_rotate(uint8_t * buf, int dir);
+void sh1107_dump(SH1107_t dev);
+void sh1107_dump_page(SH1107_t * dev, int page, int seg);
 
 void spi_master_init(SH1107_t * dev, int16_t GPIO_MOSI, int16_t GPIO_SCLK, int16_t GPIO_CS, int16_t GPIO_DC, int16_t GPIO_RESET);
 bool spi_master_write_byte(spi_device_handle_t SPIHandle, const uint8_t* Data, size_t DataLength );

@@ -3,36 +3,22 @@ sh1107 Driver for esp-idf
 
 I used [this](https://github.com/dhepper/font8x8) font file.   
 
-# Installation for ESP32(M5Stick)
+# Installation
 
 ```
 git clone https://github.com/nopnop2002/esp-idf-sh1107
-cd esp-idf-sh1107/
-idf.py set-target esp32
+cd esp-idf-sh1107/TextDemo/
+idf.py set-target {esp32/esp32s2/esp32s3/esp32c3}
 idf.py menuconfig
 idf.py flash
 ```
 
-# Installation for ESP32-S2
+__Note__   
+For some reason, there are development boards that cannot use GPIO06, GPIO08, GPIO09, GPIO19 for SPI clock pins.   
+According to the ESP32C3 specifications, these pins can also be used as SPI clocks.   
+I used a raw ESP-C3-13 to verify that these pins could be used as SPI clocks.   
 
-```
-git clone https://github.com/nopnop2002/esp-idf-sh1107
-cd esp-idf-sh1107/
-idf.py set-target esp32s2
-idf.py menuconfig
-idf.py flash
-```
-# Installation for ESP32-C3
-
-```
-git clone https://github.com/nopnop2002/esp-idf-sh1107
-cd esp-idf-sh1107/
-idf.py set-target esp32c3
-idf.py menuconfig
-idf.py flash
-```
-
-
+# Configuration   
 You have to set this config value with menuconfig.   
 - CONFIG_INTERFACE   
 - CONFIG_SDA_GPIO   

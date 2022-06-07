@@ -10,12 +10,6 @@
 
 #define tag "SH1107"
 
-#define GPIO_MOSI  23
-#define GPIO_SCLK  18
-#define GPIO_CS    14
-#define GPIO_DC    27
-#define GPIO_RESET 33
-
 void app_main(void)
 {
 	SH1107_t dev;
@@ -35,7 +29,6 @@ void app_main(void)
 	ESP_LOGI(tag, "CONFIG_CS_GPIO=%d",CONFIG_CS_GPIO);
 	ESP_LOGI(tag, "CONFIG_DC_GPIO=%d",CONFIG_DC_GPIO);
 	ESP_LOGI(tag, "CONFIG_RESET_GPIO=%d",CONFIG_SPI_RESET_GPIO);
-	//spi_master_init(&dev, GPIO_MOSI, GPIO_SCLK, GPIO_CS, GPIO_DC, GPIO_RESET);
 	spi_master_init(&dev, CONFIG_MOSI_GPIO, CONFIG_SCLK_GPIO, CONFIG_CS_GPIO, CONFIG_DC_GPIO, CONFIG_SPI_RESET_GPIO);
 #endif
 	sh1107_init(&dev, 64, 128);
