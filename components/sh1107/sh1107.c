@@ -172,10 +172,10 @@ void sh1107_bitmaps(SH1107_t * dev, int xpos, int ypos, uint8_t * bitmap, int wi
 	int _width = width / 8;
 	//uint8_t wk0;
 	uint8_t wk1;
-	uint8_t page = (xpos / 8);
-	uint8_t _seg = 63 - ypos;
+	int _seg = 63 - ypos;
 	int offset = 0;
 	for(int _height=0;_height<height;_height++) {
+		int page = (xpos / 8);
 		for (int index=0;index<_width;index++) {
 			//wk0 = dev->_page[page]._segs[_seg];
 			wk1 = bitmap[index+offset];
@@ -185,7 +185,6 @@ void sh1107_bitmaps(SH1107_t * dev, int xpos, int ypos, uint8_t * bitmap, int wi
 			page++;
 		}
 		vTaskDelay(1);
-		page = (xpos / 8);
 		offset = offset + _width;
 		_seg--;
 	}
