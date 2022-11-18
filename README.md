@@ -3,6 +3,9 @@ sh1107 Driver for esp-idf
 
 I used [this](https://github.com/dhepper/font8x8) font file.   
 
+# Software requirements
+esp-idf v4.4/v5.0.   
+
 # Installation
 
 ```

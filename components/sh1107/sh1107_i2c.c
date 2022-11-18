@@ -8,7 +8,7 @@
 
 #include "sh1107.h"
 
-#define tag "SH1107"
+#define TAG "SH1107"
 
 #define I2C_NUM I2C_NUM_0
 #define I2C_MASTER_FREQ_HZ 400000 /*!< I2C master clock frequency. no higher than 1MHz for now */
@@ -79,9 +79,9 @@ void i2c_init(SH1107_t * dev, int width, int height)
 
 	esp_err_t espRc = i2c_master_cmd_begin(I2C_NUM, cmd, 10/portTICK_PERIOD_MS);
 	if (espRc == ESP_OK) {
-		ESP_LOGI(tag, "OLED configured successfully");
+		ESP_LOGI(TAG, "OLED configured successfully");
 	} else {
-		ESP_LOGE(tag, "OLED configuration failed. code: 0x%.2X", espRc);
+		ESP_LOGE(TAG, "OLED configuration failed. code: 0x%.2X", espRc);
 	}
 	i2c_cmd_link_delete(cmd);
 }
