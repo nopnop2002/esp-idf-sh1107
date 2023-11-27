@@ -4,14 +4,21 @@ sh1107 Driver for esp-idf
 I used [this](https://github.com/dhepper/font8x8) font file.   
 
 # Software requirements
-esp-idf v4.4/v5.0.   
+ESP-IDF V4.4/V5.x.   
+
+__Note for ESP32C2.__   
+ESP-IDF V5.0 ESP32C2 i2c driver has a bug.   
+ESP-IDF V5.1 is required when using i2c of ESP32C2.   
+
+__Note for ESP32C6.__   
+ESP-IDF V5.1 is required when using ESP32C6.   
 
 # Installation
 
 ```
 git clone https://github.com/nopnop2002/esp-idf-sh1107
 cd esp-idf-sh1107/TextDemo/
-idf.py set-target {esp32/esp32s2/esp32s3/esp32c3}
+idf.py set-target {esp32/esp32s2/esp32s3/esp32c2/esp32c3/esp32c6}
 idf.py menuconfig
 idf.py flash
 ```
@@ -48,7 +55,7 @@ You have to set this config value with menuconfig.
 
 Wirering
 
-|sh1107||ESP32|ESP32-S2/S3|ESP32-C3|
+|sh1107||ESP32|ESP32-S2/S3|ESP32-C2/C3/C6|
 |:-:|:-:|:-:|:-:|:-:|
 |CS|--|GPIO14|GPIO34|GPIO3|
 |DC|--|GPIO27|GPIO37|GPIO2|
@@ -78,10 +85,10 @@ I used a raw ESP-C3-13 to verify that these pins could be used as SPI clocks.
 
 Wirering
 
-|sh1107||ESP32|ESP32-S2/S3|ESP32-C3|
+|sh1107||ESP32|ESP32-S2/S3|ESP32-C2/C3/C6|
 |:-:|:-:|:-:|:-:|:-:|
-|SDA|--|GPIO21|GPIO11|GPI10|
-|SCL|--|GPIO22|GPIO12|GPIO9|
+|SCL|--|GPIO22|GPIO12|GPIO6|
+|SDA|--|GPIO21|GPIO11|GPIO5|
 |GND|--|GND|GND|GND|
 |VCC|--|3.3V|3.3V|3.3V|
 
