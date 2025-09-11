@@ -53,7 +53,7 @@ You have to set this config value with menuconfig.
 ![spi-1](https://user-images.githubusercontent.com/6020549/138789782-6c7904d3-c25e-48f7-aaaa-fec98cf07dce.JPG)
 ![spi-2](https://user-images.githubusercontent.com/6020549/138789787-dca0f931-8106-4ce8-92bb-b87e01927cc2.JPG)
 
-Wirering
+Wiring
 
 |sh1107||ESP32|ESP32-S2/S3|ESP32-C2/C3/C6|
 |:-:|:-:|:-:|:-:|:-:|
@@ -83,7 +83,7 @@ I used a raw ESP-C3-13 to verify that these pins could be used as SPI clocks.
 ![i2c-3](https://user-images.githubusercontent.com/6020549/103496658-690b5f00-4e82-11eb-96a0-0499a840f9b1.JPG)
 ![i2c-4](https://user-images.githubusercontent.com/6020549/103496662-6ad52280-4e82-11eb-9177-335eed508e26.JPG)
 
-Wirering
+Wiring
 
 |sh1107||ESP32|ESP32-S2/S3|ESP32-C2/C3/C6|
 |:-:|:-:|:-:|:-:|:-:|
